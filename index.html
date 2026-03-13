@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <title>Para você 💙</title>
 
@@ -26,9 +27,9 @@ touch-action: manipulation;
 
 <script>
 function playAudio(){
-    var audio = document.getElementById("myAudio");
-    audio.volume = 0.3;
-    audio.play().catch(()=>{});
+var audio=document.getElementById("myAudio");
+audio.volume=0.3;
+audio.play().catch(()=>{});
 }
 </script>
 
@@ -51,27 +52,31 @@ function playAudio(){
 <div class="decorative-star" style="left:30%;top:80%">🌟</div>
 
 <div id="text">
+
 <div id="code">
 
 <span class="say">Há meses que eu queria te contar</span><br>
 <span class="say">mas, por medo, eu acabei me afastando</span><br>
 <span class="say">então quando eu te vi de novo, eu percebi</span><br>
 <span class="say destaque">Eu quero ficar com você</span><br>
+
 <br>
 
 <span class="say">Eu te amo.</span><br>
 <span class="say">eu quero tentar te fazer feliz.</span><br>
 <span class="say">Posso não ser a melhor pessoa do mundo</span><br>
 <span class="say">mas eu farei o meu melhor para te ver sorrir.</span><br>
+
 <br>
 
 <span class="say">E se você quiser,</span><br>
 <span class="say">eu adoraria escrever os próximos capítulos</span><br>
 <span class="say">dessa história com você.</span><br>
 <span class="say">O que você me diz?</span><br>
+
 <br>
 
-<span class="say delayed" style="font-size:20px;margin-top:16px;display:block;">
+<span class="say delayed" style="font-size:20px;margin-top:16px;display:block">
 Você quer tentar viver isso comigo?
 </span>
 
@@ -89,21 +94,31 @@ Você quer tentar viver isso comigo?
 
 (function(){
 
-var canvas = $('#canvas');
-var ctx = canvas[0].getContext('2d');
+var canvas=$('#canvas');
+var ctx=canvas[0].getContext('2d');
 
-var containerWidth = Math.min(1100,Math.max(400,window.innerWidth*0.95));
-var containerHeight = containerWidth*(680/1100);
-var scaleFactor = containerWidth/1100;
+if(!ctx){
+return;
+}
 
-canvas[0].width = containerWidth;
-canvas[0].height = containerHeight;
-canvas.css({width:containerWidth,height:containerHeight});
+var containerWidth=Math.min(1100,window.innerWidth*0.95);
+var containerHeight=Math.min(680,window.innerHeight*0.9);
 
-var width = containerWidth;
-var height = containerHeight;
+var scaleFactor=containerWidth/1100;
+
+canvas[0].width=containerWidth;
+canvas[0].height=containerHeight;
+
+canvas.css({
+width:containerWidth+"px",
+height:containerHeight+"px"
+});
+
+var width=containerWidth;
+var height=containerHeight;
 
 var opts={
+
 seed:{
 x:width/2,
 color:"#FF1493",
@@ -129,35 +144,50 @@ speed:10
 };
 
 var tree=new Tree(canvas[0],width,height,opts);
+
 var seed=tree.seed;
 var foot=tree.footer;
+
 var hold=1;
 
+ctx.clearRect(0,0,width,height);
 seed.draw();
 
 canvas.on('mousemove click touchstart',function(e){
 
 var rect=canvas[0].getBoundingClientRect();
+
 var x,y;
 
 if(e.type==="touchstart"){
+
 x=e.originalEvent.touches[0].clientX-rect.left;
 y=e.originalEvent.touches[0].clientY-rect.top;
+
 }else{
+
 x=e.clientX-rect.left;
 y=e.clientY-rect.top;
+
 }
 
 var isHover=seed.hover(x,y);
+
 canvas.css('cursor',isHover?'pointer':'default');
 
 if(isHover&&(e.type==='click'||e.type==='touchstart')){
+
 playAudio();
+
 hold=0;
+
 canvas.off('mousemove click touchstart');
+
 }
 
 });
+
+canvas.addClass('hand');
 
 var seedAnimate=eval(Jscex.compile("async",function(){
 
@@ -168,14 +198,21 @@ $await(Jscex.Async.sleep(10));
 }
 
 while(seed.canScale()){
+
 seed.scale(0.95);
+
 $await(Jscex.Async.sleep(10));
+
 }
 
 while(seed.canMove()){
+
 seed.move(0,2);
+
 foot.draw();
+
 $await(Jscex.Async.sleep(10));
+
 }
 
 }));
@@ -183,20 +220,24 @@ $await(Jscex.Async.sleep(10));
 var growAnimate=eval(Jscex.compile("async",function(){
 
 do{
+
 tree.grow();
+
 $await(Jscex.Async.sleep(10));
-}
-while(tree.canGrow());
+
+}while(tree.canGrow());
 
 }));
 
 var flowAnimate=eval(Jscex.compile("async",function(){
 
 do{
+
 tree.flower(5);
+
 $await(Jscex.Async.sleep(10));
-}
-while(tree.canFlower());
+
+}while(tree.canFlower());
 
 }));
 
@@ -205,9 +246,13 @@ var moveAnimate=eval(Jscex.compile("async",function(){
 tree.snapshot("p1",240*scaleFactor,0,610*scaleFactor,height);
 
 while(tree.move("p1",500*scaleFactor,0)){
+
 ctx.clearRect(0,0,width,height);
+
 foot.draw();
+
 $await(Jscex.Async.sleep(10));
+
 }
 
 foot.draw();
@@ -228,14 +273,19 @@ canvas.css("background","none");
 }));
 
 var textAnimate=eval(Jscex.compile("async",function(){
+
 $("#code").show().typewriter();
+
 }));
 
 var runAsync=eval(Jscex.compile("async",function(){
 
 $await(seedAnimate());
+
 $await(growAnimate());
+
 $await(flowAnimate());
+
 $await(moveAnimate());
 
 playAudio();
