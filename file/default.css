@@ -84,6 +84,7 @@ a {
   display: block;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  touch-action: pan-x pan-y pinch-zoom;
 }
 #error {
   margin: 0 auto;
@@ -153,6 +154,22 @@ a {
   font-size: 14px;
   color: #fc9393;
 }
+@media (orientation: landscape){
+
+#wrap{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:30px;
+}
+
+#text{
+max-width:400px;
+font-size:14px;
+}
+
 #canvas{
-touch-action: manipulation;
+max-height:80vh;
+}
+
 }
