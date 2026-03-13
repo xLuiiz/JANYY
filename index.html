@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title> Para você 💙 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="file/default.css">
+    <script type="text/javascript" src="file/jquery.min.js"></script>
+    <script type="text/javascript" src="file/jscex.min.js"></script>
+    <script type="text/javascript" src="file/jscex-parser.js"></script>
+    <script type="text/javascript" src="file/jscex-jit.js"></script>
+    <script type="text/javascript" src="file/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="file/jscex-async.min.js"></script>
+    <script type="text/javascript" src="file/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="file/love.js" charset="utf-8"></script>
+    <script>
+        function playAudio() {
+            var audio = document.getElementById("myAudio");
+            audio.volume = 0.3;
+            audio.play().catch(function(e) { console.log('Autoplay prevented:', e); });
+        }
+    </script>
+</head>
+<body>
+    <div id="main">
+        <div id="error" style="display:none;"><a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a> (<a href="http://firefox.com.cn/download/">Firefox</a>)</div>
+        <audio id="myAudio" preload="auto">
+            <source src="velhainfancia_yyT5ANlt.mp3" type="audio/mp3" />
+        </audio>
+        <div id="wrap">
+            <!-- Decorative elements -->
+            <div class="decorative-heart" style="left: 10%; top: 20%;">💖</div>
+            <div class="decorative-heart" style="left: 80%; top: 30%;">💕</div>
+            <div class="decorative-star" style="left: 70%; top: 60%;">⭐</div>
+            <div class="decorative-heart" style="left: 50%; top: 10%;">💗</div>
+            <div class="decorative-star" style="left: 30%; top: 80%;">🌟</div>
+
+            <div id="text">
+                <div id="code">
+                    <span class="say">Há meses que eu queria te contar </span><br>
+                    <span class="say">mas, por medo, eu acabei me afastando</span><br>
+                    <span class="say">então quando eu te vi de novo, eu percebi</span><br>
+                    <span class="say destaque">Eu quero ficar com você</span><br>
+                    <br>
+                    <span class="say">Eu te amo.</span><br>
+                    <span class="say">eu quero tentar te fazer feliz.</span><br>
+                    <span class="say">Posso não ser a melhor pessoa do mundo</span><br>
+                    <span class="say">mas eu farei o meu melhor para te ver sorrir.</span><br>
+                    <br>
+                    <span class="say">E se você quiser,</span><br>
+                    <span class="say">eu adoraria escrever os próximos capítulos</span><br>
+                    <span class="say">dessa história com você.</span><br>
+                    <span class="say">O que você me diz?</span><br>
+                    <br>
+                    <span class="say delayed" style="font-size: 20px; margin-top: 16px; display: block;">Você quer tentar viver isso comigo?</span><br>
+                </div>
+            </div>
+<canvas id="canvas"></canvas>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="file/function.js" charset="utf-8"></script>
+
+    <script>
+    (function() {
+        var canvas = $('#canvas');
+        var ctx = canvas[0].getContext('2d');
+		
+        if (!ctx) {
+            $('#error').show();
+            return false;
+        }
+
+        var containerWidth = Math.min(1100, Math.max(400, window.innerWidth * 0.95));
+        var containerHeight = containerWidth * (680 / 1100);
+        var scaleFactor = containerWidth / 1100;
+        canvas[0].width = containerWidth;
+        canvas[0].height = containerHeight;
+        canvas.css({width: containerWidth + 'px', height: containerHeight + 'px'});
+        var width = containerWidth;
+        var height = containerHeight;
+
+        var opts = {
+            seed: {
+                x: width / 2,
+                color: "#FF1493", 
+                scale: 3
+            },
+            branch: [
+                [535 * scaleFactor, 680 * scaleFactor, 570 * scaleFactor, 250 * scaleFactor, 500 * scaleFactor, 200 * scaleFactor, 30, 100, []]
+            ],
+            bloom: {
+                num: 700,
+                width: width,
+                height: height,
+            },
+            footer: {
+                width: width * 1.09,
+                height: 5,
+                speed: 10,
+            }
+        };
+
+        var tree = new Tree(canvas[0], width, height, opts);
+        var seed = tree.seed;
+        var foot = tree.footer;
+        var hold = 1;
+
+        ctx.clearRect(0, 0, width, height);
+        seed.draw();
+
+        canvas.on('mousemove click touchstart touchend', function(e) {
+            var rect = canvas[0].getBoundingClientRect();
+            var x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            var y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            var isHover = seed.hover(x, y);
+            canvas.css('cursor', isHover ? 'pointer' : 'default');
+            if (isHover && (e.type === 'click' || e.type === 'touchstart')) {
+                playAudio();
+                hold = 0;
+                canvas.off('mousemove click touchstart touchend');
+            }
+        });
+        canvas.addClass('hand');
+
+        var seedAnimate = eval(Jscex.compile("async", function () {
+            seed.draw();
+            while (hold) {
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canScale()) {
+                seed.scale(0.95);
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canMove()) {
+                seed.move(0, 2);
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+        }));
+
+        var growAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.grow();
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canGrow());
+        }));
+
+        var flowAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.flower(5);
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canFlower());
+        }));
+
+        var moveAnimate = eval(Jscex.compile("async", function () {
+            tree.snapshot("p1", 240 * scaleFactor, 0, 610 * scaleFactor, height);
+            while (tree.move("p1", 500 * scaleFactor, 0)) {
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+            foot.draw();
+            tree.snapshot("p2", 500 * scaleFactor, 0, 610 * scaleFactor, height);
+            canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+            canvas.css("background", "#ffe");
+            $await(Jscex.Async.sleep(300));
+            canvas.css("background", "none");
+        }));
+
+        var textAnimate = eval(Jscex.compile("async", function () {
+            $("#code").show().typewriter();
+        }));
+
+        var runAsync = eval(Jscex.compile("async", function () {
+            $await(seedAnimate());
+            $await(growAnimate());
+            $await(flowAnimate());
+            $await(moveAnimate());
+            playAudio();
+            $await(textAnimate());
+        }));
+
+        runAsync().start();
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  overflow-x: auto;
+  min-height: 100vh;
+}
+
+#wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  #wrap {
+    flex-direction: row;
+    justify-content: center;
+  }
+  #text {
+    position: absolute;
+    left: 188px;
+    top: 80px;
+    width: 272px;
+    height: 560px;
+  }
+}
+a {
+  color: white;
+  font-size: 14px;
+}
+#main {
+  width: 100%;
+}
+#wrap {
+  position: relative;
+  margin: 0 auto;
+  width: 1100px;
+  height: 680px;
+  margin-top: 10px;
+}
+#text {
+  width: 90%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+#code {
+  display: none;
+  color: rgb(196, 255, 255);
+  font-size: clamp(14px, 4vw, 16px);
+  line-height: 1.4;
+  font-weight: bolder;
+  text-align: center;
+}
+#clock-box {
+  position: absolute;
+  left: 60px;
+  top: 550px;
+  font-size: 28px;
+  display: none;
+}
+#clock-box a {
+  font-size: 28px;
+  text-decoration: none;
+}
+#clock {
+  margin-left: 48px;
+}
+#clock .digit {
+  font-size: 64px;
+}
+#canvas {
+  margin: 10px auto;
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  aspect-ratio: 1100 / 680;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+#error {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 60px;
+  display: none;
+}
+.hand {
+  cursor: pointer;
+}
+.say {
+  margin-left: 5px;
+}
+.space {
+  margin-right: 150px;
+}
+
+#message-box{
+  position: absolute;
+  margin-top:450px;
+  font-size: 25px;
+  font-family: monospace;
+
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #clock-box {
+    font-size: 20px;
+    text-align: center;
+    margin: 10px 0;
+  }
+  #clock .digit {
+    font-size: 32px;
+  }
+  .decorative-heart, .decorative-star {
+    font-size: clamp(20px, 8vw, 40px);
+  }
+}
+
+/* Decorative elements */
+.decorative-heart {
+  position: absolute;
+  font-size: 30px;
+  opacity: 0.7;
+  animation: float 6s ease-in-out infinite;
+}
+
+.decorative-star {
+  position: absolute;
+  font-size: 20px;
+  opacity: 0.5;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.destaque {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fc9393;
+}
