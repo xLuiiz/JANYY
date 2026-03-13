@@ -153,3 +153,6 @@ a {
   font-size: 14px;
   color: #fc9393;
 }
+#canvas{
+touch-action: manipulation;
+}
