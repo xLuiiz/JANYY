@@ -111,9 +111,10 @@
         seed.draw();
 
         canvas.on('mousemove click touchstart touchend', function(e) {
+            e.preventDefault();
             var rect = canvas[0].getBoundingClientRect();
-            var x = ((e.clientX || (e.touches && e.touches[0].clientX)) - rect.left) / scaleFactor;
-            var y = ((e.clientY || (e.touches && e.touches[0].clientY)) - rect.top) / scaleFactor;
+            var x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            var y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
             var isHover = seed.hover(x, y);
             canvas.css('cursor', isHover ? 'pointer' : 'default');
             if (isHover && (e.type === 'click' || e.type === 'touchstart')) {
